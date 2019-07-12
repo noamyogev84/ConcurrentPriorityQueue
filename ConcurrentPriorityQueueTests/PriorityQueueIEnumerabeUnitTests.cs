@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Xunit;
 using System.Linq;
 using FluentAssertions;
@@ -9,7 +7,7 @@ using ConcurrentPriorityQueue;
 namespace ConcurrentPriorityQueueTests
 {
 	/// <summary>
-	/// Test general functionalty of the queue [Enqueue, Dequeue, Peek]
+	/// Test IEnumerable functionality
 	/// </summary>
 	public class PriorityQueueIEnumerabeUnitTests
 	{			
@@ -21,19 +19,12 @@ namespace ConcurrentPriorityQueueTests
 			_targetQueue = new ConcurrentPriorityQueue<IHavePriority>(supportedNumberOfPriorites);
 		}
 
-		public static IEnumerable<object[]> MockItemsWithPriority =>
-			new List<object[]>
-			{
-				new object[] { new MockWithPriority(0) },
-				new object[] { new MockWithPriority(1) },
-				new object[] { new MockWithPriority(2) },
-			};
-
 		[Fact]
 		public void GetEnumerator_QueueContainsDifferentPriorities_EnumerationIsOrderedByPriority()
 		{
 			// Arrange
-			MockItemsWithPriority.ToList().ForEach(items => _targetQueue.Enqueue(items[0] as IHavePriority));
+			var mockItems = TestHelpers.GetItemsWithPriority();
+			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Assert
 			var expectedPriority = 0;
@@ -64,16 +55,17 @@ namespace ConcurrentPriorityQueueTests
 		}
 
 		[Fact]
-		public void Count__ReturnsAggregatedCount()
+		public void Count_ReturnsAggregatedCount()
 		{
 			// Arrange
-			MockItemsWithPriority.ToList().ForEach(items => _targetQueue.Enqueue(items[0] as IHavePriority));
+			var mockItems = TestHelpers.GetItemsWithPriority();
+			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act
 			var totalCount = _targetQueue.Count;
 
 			// Assert
-			totalCount.Should().Be(MockItemsWithPriority.ToList().Count);
+			totalCount.Should().Be(mockItems.Count);
 		}
 	}
 }

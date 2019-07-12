@@ -20,23 +20,15 @@ namespace ConcurrentPriorityQueueTests
 			_targetQueue = new ConcurrentPriorityQueue<IHavePriority>(supportedNumberOfPriorites);
 		}
 
-		public static IEnumerable<object[]> MockItemsWithPriority =>
-			new List<object[]>
-			{
-				new object[] { new MockWithPriority(0) },
-				new object[] { new MockWithPriority(1) },
-				new object[] { new MockWithPriority(2) },
-			};
-
-		[Theory]
-		[MemberData(nameof(MockItemsWithPriority))]
-		public void Enqueue_GetsValidPriorityItem_ReturnsSuccess(IHavePriority item)
-		{
-			// Act
-			var result = _targetQueue.Enqueue(item);
-
+		[Fact]
+		public void Enqueue_GetsValidPriorityItem_ReturnsSuccess()
+		{			
 			// Assert
-			result.IsSuccess.Should().BeTrue();
+			TestHelpers.GetItemsWithPriority().ForEach(i =>
+			{
+				var result = _targetQueue.Enqueue(i);
+				result.IsSuccess.Should().BeTrue();
+			});
 		}
 
 		[Fact]
@@ -56,8 +48,8 @@ namespace ConcurrentPriorityQueueTests
 		public void Dequeue_ReturnsSuccessResultWithTopPriorityItem()
 		{
 			// Arrange
-			MockItemsWithPriority
-				.ToList().ForEach(items => _targetQueue.Enqueue(items[0] as IHavePriority));
+			var mockItems = TestHelpers.GetItemsWithPriority();
+			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act
 			var result1 = _targetQueue.Dequeue();
@@ -102,8 +94,8 @@ namespace ConcurrentPriorityQueueTests
 		public void Peek_ReturnsSuccessResultWithTopPriorityItem()
 		{
 			// Arrange
-			MockItemsWithPriority
-				.ToList().ForEach(items => _targetQueue.Enqueue(items[0] as IHavePriority));
+			var mockItems = TestHelpers.GetItemsWithPriority();
+			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act
 			var result = _targetQueue.Peek();
