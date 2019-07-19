@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Xunit;
-using System.Linq;
+﻿using Xunit;
 using FluentAssertions;
 using ConcurrentPriorityQueue;
 

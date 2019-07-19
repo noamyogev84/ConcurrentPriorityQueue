@@ -5,7 +5,7 @@ namespace ConcurrentPriorityQueueTests
 {	
 	public class MockWithPriority : IHavePriority
 	{
-		public MockWithPriority(int priority)
+		public MockWithPriority(int priority = 0)
 		{
 			Priority = priority;
 		}
