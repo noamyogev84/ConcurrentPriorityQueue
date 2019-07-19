@@ -1,12 +1,26 @@
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-    
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
+#basic net core build recipe
 
+steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    version: '2.1.300'
+
+steps:
+- script: dotnet restore
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration Debug'
+
+steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'test'
+    command: test
+    projects: '**/*Tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+
