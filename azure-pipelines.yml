@@ -5,10 +5,8 @@ steps:
   inputs:
     version: '2.1.300'
 
-steps:
 - script: dotnet restore
 
-steps:
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
@@ -16,7 +14,6 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration Debug'
 
-steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: test
