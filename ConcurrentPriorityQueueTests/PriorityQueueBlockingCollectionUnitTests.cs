@@ -25,7 +25,7 @@ namespace ConcurrentPriorityQueueTests
 		public void Test_ConsumingTaskBlocksUntilNoMoreAdditions()
 		{
 			const int numberOfItemsToAdd = 10;
-			const int defaultSleepTimeBetweenAdds = 2000;
+			const int defaultSleepTimeBetweenAdds = 1000;
 
 			// Add items and signal for completion when done.
 			Task.Run(() => AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds))
@@ -52,9 +52,10 @@ namespace ConcurrentPriorityQueueTests
 
 		private Task TakeItems()
 		{
+			// blocks until signaled on completion.
 			foreach (var item in _targetCollection.GetConsumingEnumerable())
 			{
-				Console.WriteLine($"Got it! {item.Priority}");
+				item.Should().BeOfType<MockWithPriority>();
 			}
 
 			return Task.CompletedTask;
