@@ -10,14 +10,14 @@ namespace ConcurrentPriorityQueueTests
 	/// <summary>
 	/// Test Blocking collection functionality
 	/// </summary>
-	/*public class PriorityQueueBlockingCollectionUnitTests : IDisposable
+	public class PriorityQueueBlockingCollectionUnitTests : IDisposable
 	{
 		private const int supportedNumberOfPriorites = 3;
-		private readonly BlockingCollection<IHavePriority> _targetCollection;
+		private readonly BlockingCollection<IHavePriority<int>> _targetCollection;
 
 		public PriorityQueueBlockingCollectionUnitTests()
 		{
-			_targetCollection = new ConcurrentPriorityQueue<IHavePriority>(supportedNumberOfPriorites)
+			_targetCollection = new ConcurrentPriorityQueue<IHavePriority<int>, int>(supportedNumberOfPriorites)
 				.ToBlockingCollection();
 		}
 
@@ -45,7 +45,7 @@ namespace ConcurrentPriorityQueueTests
 			const int numberOfItems = 10;
 			for (var i = 0; i < numberOfItems; ++i)
 			{
-				_targetCollection.Add(new MockWithPriority());
+				_targetCollection.Add(new MockWithIntegerPriority());
 				await Task.Delay(sleepTime);
 			}
 		}
@@ -55,10 +55,10 @@ namespace ConcurrentPriorityQueueTests
 			// blocks until signaled on completion.
 			foreach (var item in _targetCollection.GetConsumingEnumerable())
 			{
-				item.Should().BeOfType<MockWithPriority>();
+				item.Should().BeOfType<MockWithIntegerPriority>();
 			}
 
 			return Task.CompletedTask;
 		}
-	}*/
+	}
 }
