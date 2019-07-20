@@ -10,7 +10,7 @@ namespace ConcurrentPriorityQueueTests
 	/// <summary>
 	/// Test Blocking collection functionality
 	/// </summary>
-	public class PriorityQueueBlockingCollectionUnitTests : IDisposable
+	/*public class PriorityQueueBlockingCollectionUnitTests : IDisposable
 	{
 		private const int supportedNumberOfPriorites = 3;
 		private readonly BlockingCollection<IHavePriority> _targetCollection;
@@ -60,5 +60,5 @@ namespace ConcurrentPriorityQueueTests
 
 			return Task.CompletedTask;
 		}
-	}
+	}*/
 }

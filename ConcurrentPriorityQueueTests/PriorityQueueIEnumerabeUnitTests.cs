@@ -9,19 +9,18 @@ namespace ConcurrentPriorityQueueTests
 	/// </summary>
 	public class PriorityQueueIEnumerabeUnitTests
 	{			
-		private const int supportedNumberOfPriorites = 3;
-		private readonly IConcurrentPriorityQueue<IHavePriority> _targetQueue;
+		private readonly IConcurrentPriorityQueue<IHavePriority<int>, int> _targetQueue;
 
 		public PriorityQueueIEnumerabeUnitTests()
 		{
-			_targetQueue = new ConcurrentPriorityQueue<IHavePriority>(supportedNumberOfPriorites);
+			_targetQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>();
 		}
 
 		[Fact]
 		public void GetEnumerator_QueueContainsDifferentPriorities_EnumerationIsOrderedByPriority()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithPriority();
+			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Assert
@@ -36,8 +35,8 @@ namespace ConcurrentPriorityQueueTests
 		public void GetEnumerator_QueueContainsSamePriorities_EnumerationIsOrderedByFirstIn()
 		{
 			// Arrange
-			var mockWithPriority1 = new MockWithPriority(0);
-			var mockWithPriority2 = new MockWithPriority(0);
+			var mockWithPriority1 = new MockWithIntegerPriority(0);
+			var mockWithPriority2 = new MockWithIntegerPriority(0);
 
 			_targetQueue.Enqueue(mockWithPriority1);
 			_targetQueue.Enqueue(mockWithPriority2);
@@ -56,7 +55,7 @@ namespace ConcurrentPriorityQueueTests
 		public void Count_ReturnsAggregatedCount()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithPriority();
+			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act

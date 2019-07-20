@@ -7,19 +7,18 @@ namespace ConcurrentPriorityQueueTests
 {
 	public class PriorityQueueIProducerConsumerUnitTests
 	{
-		private const int supportedNumberOfPriorites = 3;
-		private readonly IConcurrentPriorityQueue<IHavePriority> _targetQueue;
+		private readonly IConcurrentPriorityQueue<IHavePriority<int>, int> _targetQueue;
 
 		public PriorityQueueIProducerConsumerUnitTests()
 		{
-			_targetQueue = new ConcurrentPriorityQueue<IHavePriority>(supportedNumberOfPriorites);
+			_targetQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>();
 		}
 
 		[Fact]
 		public void ToArray_QueueContainsElements_ReturnsItemsArray()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithPriority();
+			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Arrange
@@ -44,9 +43,9 @@ namespace ConcurrentPriorityQueueTests
 		public void CopyTo_GetsArray_CopiesAllItems()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithPriority();
+			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
-			var newArray = new IHavePriority[3];
+			var newArray = new IHavePriority<int>[3];
 
 			// Act
 			_targetQueue.CopyTo(newArray, 0);
@@ -60,9 +59,9 @@ namespace ConcurrentPriorityQueueTests
 		public void CopyTo_GetsArrayType_CopiesAllItems()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithPriority();
+			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
-			var newArray = Array.CreateInstance(typeof(IHavePriority), mockItems.Count);
+			var newArray = Array.CreateInstance(typeof(IHavePriority<int>), mockItems.Count);
 
 			// Act
 			_targetQueue.CopyTo(newArray, 0);

@@ -1,7 +1,9 @@
-﻿namespace ConcurrentPriorityQueue
+﻿using System;
+
+namespace ConcurrentPriorityQueue
 {
-	public interface IHavePriority
+	public interface IHavePriority<TP> where TP : IEquatable<TP>, IComparable<TP>
 	{
-		int Priority { get; set; }
+		TP Priority { get; set; }
 	}
 }
