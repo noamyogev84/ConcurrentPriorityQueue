@@ -1,30 +1,31 @@
-using Xunit;
-using ConcurrentPriorityQueue;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using ConcurrentPriorityQueue.Core;
-using System.Linq;
+using Xunit;
 using FluentAssertions;
+using System.Linq;
 
-
-namespace ConcurrentPriorityQueueTests
+namespace GenericConcurrentPriorityQueueTests
 {
 	/// <summary>
 	/// Test general functionalty of the queue [Enqueue, Dequeue, Peek]
 	/// </summary>
-	public class PriorityQueueUnitTests
+	public class GenericPriorityQueueUnitTests
 	{
-		private readonly IPriorityQueue<IHavePriority<int>> _targetQueue;
+		private readonly IPriorityQueue<IHavePriority<TimeToProcess>> _targetQueue;
 
-		public PriorityQueueUnitTests()
+		public GenericPriorityQueueUnitTests()
 		{
 			var maxCapacity = 3;
-			_targetQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>(maxCapacity);
+			_targetQueue = new ConcurrentPriorityQueue<IHavePriority<TimeToProcess>, TimeToProcess>(maxCapacity);
 		}
 
 		[Fact]
 		public void Enqueue_GetsValidPriorityItem_ReturnsSuccess()
-		{			
+		{
 			// Assert
-			TestHelpers.GetItemsWithIntegerPriority().ForEach(i =>
+			TestHelpers.GetItemsWithObjectPriority().ForEach(i =>
 			{
 				var result = _targetQueue.Enqueue(i);
 				result.IsSuccess.Should().BeTrue();
@@ -35,10 +36,10 @@ namespace ConcurrentPriorityQueueTests
 		public void Enqueue_MaxCapacityReached_TryToEnqueueNewPriority_Failes()
 		{
 			// Arrange
-			TestHelpers.GetItemsWithIntegerPriority().ForEach(i => _targetQueue.Enqueue(i));
+			TestHelpers.GetItemsWithObjectPriority().ForEach(i => _targetQueue.Enqueue(i));
 
 
-			var mockWithPriority = new MockWithIntegerPriority(10);
+			var mockWithPriority = new MockWithObjectPriority(new TimeToProcess(1.5M));
 
 			// Act
 			var result = _targetQueue.Enqueue(mockWithPriority);
@@ -51,8 +52,8 @@ namespace ConcurrentPriorityQueueTests
 		public void Enqueue_MaxCapacityReached_TryToEnqueueExistingPriority_Succeedes()
 		{
 			// Arrange
-			TestHelpers.GetItemsWithIntegerPriority().ForEach(i => _targetQueue.Enqueue(i));
-			var mockWithPriority = TestHelpers.GetItemsWithIntegerPriority().First();
+			TestHelpers.GetItemsWithObjectPriority().ForEach(i => _targetQueue.Enqueue(i));
+			var mockWithPriority = TestHelpers.GetItemsWithObjectPriority().First();
 
 			// Act
 			var result = _targetQueue.Enqueue(mockWithPriority);
@@ -65,7 +66,7 @@ namespace ConcurrentPriorityQueueTests
 		public void Dequeue_ReturnsSuccessResultWithTopPriorityItem()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
+			var mockItems = TestHelpers.GetItemsWithObjectPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act
@@ -74,16 +75,17 @@ namespace ConcurrentPriorityQueueTests
 			var result3 = _targetQueue.Dequeue();
 
 			// Assert
-			result1.Value.Priority.Should().Be(0);
-			result2.Value.Priority.Should().Be(1);
-			result3.Value.Priority.Should().Be(2);
+			result1.Value.Priority.Should().Be(new TimeToProcess(0.25M));
+			result2.Value.Priority.Should().Be(new TimeToProcess(0.5M));
+			result3.Value.Priority.Should().Be(new TimeToProcess(1M));
 		}
 
 		[Fact]
 		public void Dequeue_QueueIsEmptyReturnsFailureResult()
 		{
 			// Act
-			var result = _targetQueue.Dequeue();;
+			var result = _targetQueue.Dequeue();
+			;
 
 			// Assert
 			result.IsFailure.Should().BeTrue();
@@ -93,11 +95,11 @@ namespace ConcurrentPriorityQueueTests
 		public void Dequeue_QueueContainsItemsWithSamePriority_ReturnsSuccessWithFirstInItem()
 		{
 			// Arrange
-			var mockWithPriority1 = new MockWithIntegerPriority(0);
-			var mockWithPriority2 = new MockWithIntegerPriority(0);
+			var mockWithPriority1 = new MockWithObjectPriority(new TimeToProcess(0.5M));
+			var mockWithPriority2 = new MockWithObjectPriority(new TimeToProcess(0.5M));
 			_targetQueue.Enqueue(mockWithPriority1);
 			_targetQueue.Enqueue(mockWithPriority2);
-			
+
 			// Act
 			var result1 = _targetQueue.Dequeue();
 			var result2 = _targetQueue.Dequeue();
@@ -111,32 +113,22 @@ namespace ConcurrentPriorityQueueTests
 		public void Peek_ReturnsSuccessResultWithTopPriorityItem()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
+			var mockItems = TestHelpers.GetItemsWithObjectPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act
 			var result = _targetQueue.Peek();
 
 			// Assert
-			result.Value.Priority.Should().Be(0);
-		}
-
-		[Fact]
-		public void Peek_QueueIsEmptyReturnsFailureResult()
-		{
-			// Act
-			var result = _targetQueue.Peek(); ;
-
-			// Assert
-			result.IsFailure.Should().BeTrue();
+			result.Value.Priority.Should().Be(new TimeToProcess(0.25M));
 		}
 
 		[Fact]
 		public void Peek_QueueContainsItemsWithSamePriority_ReturnsSuccessWithFirstInItem()
 		{
 			// Arrange
-			var mockWithPriority1 = new MockWithIntegerPriority(0);
-			var mockWithPriority2 = new MockWithIntegerPriority(0);
+			var mockWithPriority1 = new MockWithObjectPriority(new TimeToProcess(0.5M));
+			var mockWithPriority2 = new MockWithObjectPriority(new TimeToProcess(0.5M));
 			_targetQueue.Enqueue(mockWithPriority1);
 			_targetQueue.Enqueue(mockWithPriority2);
 
@@ -147,6 +139,7 @@ namespace ConcurrentPriorityQueueTests
 			// Assert
 			result1.Value.Should().Be(mockWithPriority1);
 			result2.Value.Should().Be(mockWithPriority2);
+
 		}
 	}
 }

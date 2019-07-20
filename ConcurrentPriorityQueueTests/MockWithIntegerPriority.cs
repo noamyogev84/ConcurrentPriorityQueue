@@ -1,4 +1,4 @@
-﻿using ConcurrentPriorityQueue;
+﻿using ConcurrentPriorityQueue.Core;
 
 
 namespace ConcurrentPriorityQueueTests
@@ -10,10 +10,6 @@ namespace ConcurrentPriorityQueueTests
 			Priority = priority;
 		}
 
-		public int Priority { get; set; }
-
-		public int CompareTo(int other) => Priority.CompareTo(other);
-
-		public bool Equals(int other) => Priority == other;
+		public int Priority { get; set; }		
 	}	
 }

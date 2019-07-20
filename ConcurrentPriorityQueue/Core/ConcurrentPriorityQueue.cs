@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CSharpFunctionalExtensions;
 
-namespace ConcurrentPriorityQueue
+namespace ConcurrentPriorityQueue.Core
 {
     public class ConcurrentPriorityQueue<T, TP> : IConcurrentPriorityQueue<T, TP> 
 	    where T : IHavePriority<TP>

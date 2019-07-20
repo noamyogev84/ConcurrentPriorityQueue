@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System;
 
-namespace ConcurrentPriorityQueue
+namespace ConcurrentPriorityQueue.Core
 {
 	public static class ConcurrentPriorityQueueExtensions
 	{

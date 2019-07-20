@@ -1,34 +1,33 @@
-﻿using Xunit;
+﻿using ConcurrentPriorityQueue.Core;
+using Xunit;
 using FluentAssertions;
-using ConcurrentPriorityQueue;
-using ConcurrentPriorityQueue.Core;
 
-namespace ConcurrentPriorityQueueTests
+namespace GenericConcurrentPriorityQueueTests
 {
 	/// <summary>
 	/// Test IEnumerable functionality
 	/// </summary>
-	public class PriorityQueueIEnumerabeUnitTests
-	{			
-		private readonly IConcurrentPriorityQueue<IHavePriority<int>, int> _targetQueue;
+	public class GenericPriorityQueueIEnumerabeUnitTests
+	{
+		private readonly IConcurrentPriorityQueue<IHavePriority<TimeToProcess>, TimeToProcess> _targetQueue;
 
-		public PriorityQueueIEnumerabeUnitTests()
+		public GenericPriorityQueueIEnumerabeUnitTests()
 		{
-			_targetQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>();
+			_targetQueue = new ConcurrentPriorityQueue<IHavePriority<TimeToProcess>, TimeToProcess>();
 		}
 
 		[Fact]
 		public void GetEnumerator_QueueContainsDifferentPriorities_EnumerationIsOrderedByPriority()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
+			var mockItems = TestHelpers.GetItemsWithObjectPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Assert
-			var expectedPriority = 0;
+			var index = 0;
 			foreach (var item in _targetQueue)
 			{
-				item.Priority.Should().Be(expectedPriority++);
+				item.Priority.Should().Be(mockItems[index++].Priority);
 			}
 		}
 
@@ -36,8 +35,8 @@ namespace ConcurrentPriorityQueueTests
 		public void GetEnumerator_QueueContainsSamePriorities_EnumerationIsOrderedByFirstIn()
 		{
 			// Arrange
-			var mockWithPriority1 = new MockWithIntegerPriority(0);
-			var mockWithPriority2 = new MockWithIntegerPriority(0);
+			var mockWithPriority1 = new MockWithObjectPriority(new TimeToProcess(0.25M));
+			var mockWithPriority2 = new MockWithObjectPriority(new TimeToProcess(0.25M));
 
 			_targetQueue.Enqueue(mockWithPriority1);
 			_targetQueue.Enqueue(mockWithPriority2);
@@ -53,10 +52,10 @@ namespace ConcurrentPriorityQueueTests
 		}
 
 		[Fact]
-		public void Count_QueueContainsItems_ReturnsAggregatedCount()
+		public void Count_ReturnsAggregatedCount()
 		{
 			// Arrange
-			var mockItems = TestHelpers.GetItemsWithIntegerPriority();
+			var mockItems = TestHelpers.GetItemsWithObjectPriority();
 			mockItems.ForEach(i => _targetQueue.Enqueue(i));
 
 			// Act
@@ -64,16 +63,6 @@ namespace ConcurrentPriorityQueueTests
 
 			// Assert
 			totalCount.Should().Be(mockItems.Count);
-		}
-
-		[Fact]
-		public void Count_QueueIsEmpty_ReturnsZero()
-		{
-			// Act
-			var totalCount = _targetQueue.Count;
-
-			// Assert
-			totalCount.Should().Be(0);
 		}
 	}
 }

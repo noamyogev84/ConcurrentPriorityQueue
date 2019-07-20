@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace ConcurrentPriorityQueue
+namespace ConcurrentPriorityQueue.Core
 {
 	public interface IPriorityQueue<T>
 	{

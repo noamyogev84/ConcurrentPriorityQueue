@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using FluentAssertions;
 using ConcurrentPriorityQueue;
+using ConcurrentPriorityQueue.Core;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System;
@@ -12,12 +13,11 @@ namespace ConcurrentPriorityQueueTests
 	/// </summary>
 	public class PriorityQueueBlockingCollectionUnitTests : IDisposable
 	{
-		private const int supportedNumberOfPriorites = 3;
 		private readonly BlockingCollection<IHavePriority<int>> _targetCollection;
 
 		public PriorityQueueBlockingCollectionUnitTests()
 		{
-			_targetCollection = new ConcurrentPriorityQueue<IHavePriority<int>, int>(supportedNumberOfPriorites)
+			_targetCollection = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>()
 				.ToBlockingCollection();
 		}
 

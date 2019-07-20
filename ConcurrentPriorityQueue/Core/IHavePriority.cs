@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConcurrentPriorityQueue
+namespace ConcurrentPriorityQueue.Core
 {
 	public interface IHavePriority<TP> where TP : IEquatable<TP>, IComparable<TP>
 	{

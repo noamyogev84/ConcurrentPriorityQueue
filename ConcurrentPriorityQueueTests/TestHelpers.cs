@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using ConcurrentPriorityQueue;
+using ConcurrentPriorityQueue.Core;
 using System.Linq;
 
 namespace ConcurrentPriorityQueueTests
 {
 	public static class TestHelpers
 	{
-		public static IEnumerable<object[]> MockItemsWithPriority =>
+		public static IEnumerable<object[]> MockItemsWithIntegerPriority =>
 			new List<object[]>
 			{
 				new object[] { new MockWithIntegerPriority(0) },
@@ -15,6 +15,7 @@ namespace ConcurrentPriorityQueueTests
 			};
 
 		public static List<IHavePriority<int>> GetItemsWithIntegerPriority() =>
-			MockItemsWithPriority.Select(objects => objects[0] as IHavePriority<int>).ToList();
+			MockItemsWithIntegerPriority
+				.Select(objects => objects[0] as IHavePriority<int>).ToList();	
 	}
 }
