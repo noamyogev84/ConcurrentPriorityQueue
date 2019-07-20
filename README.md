@@ -1,8 +1,7 @@
-[![Build Status](https://dev.azure.com/noamyogev84/noamyogev84/_apis/build/status/noamyogev84.ConcurrentPriorityQueue?branchName=develop)](https://dev.azure.com/noamyogev84/noamyogev84/_build/latest?definitionId=1&branchName=develop)
 
-# ConcurrentPriorityQueue
+
+# ConcurrentPriorityQueue [![Build Status](https://dev.azure.com/noamyogev84/noamyogev84/_apis/build/status/noamyogev84.ConcurrentPriorityQueue?branchName=develop)](https://dev.azure.com/noamyogev84/noamyogev84/_build/latest?definitionId=1&branchName=develop)
 A thread-safe generic first in first out (FIFO) collection with support for priority queuing.
-
 Nuget: [enter link](https:\\)
 
 ### Features
@@ -58,7 +57,7 @@ var result = priority.Dequeue(); // item3
 var result = priority.Dequeue(); // item1
 ```
 
-**Iteration** over the collection will yield items according to their priority and position (FIFO):
+**Iterating** over the collection will yield items according to their priority and position (FIFO):
 
 ```csharp
 var item1 = new SomeClass { Priority = 1 };
@@ -76,7 +75,9 @@ foreach(var item in priorityQueue) {
 }
 ```
 
-`ConcurrentPriorityQueue` is **Generic**. Implement your own **Business Priority** object and configure the queue to handle it:
+`ConcurrentPriorityQueue` supports **Generic Priorities**. 
+
+Implement your own **Business Priority** object and configure the queue to handle it:
 
 ```csharp
 // TimeToProcess class implements IEquatable<T>, IComparable<T> and overrides Object.GetHashCode().
@@ -111,7 +112,7 @@ var priorityQueue = new ConcurrentPriorityQueue<IHavePriority<TimeToProcess>, Ti
 Result result = priorityQueue.Enqueue(item);
 ```
 
-`ConcurrentPriorityQueue<T>` can be bounded to a fixed amount of priorities:
+`ConcurrentPriorityQueue<T>` can be **bounded** to a fixed amount of priorities:
 
 ```csharp
 // Create a bounded ConcurrentPriorityQueue to support a fixed amount of priorities.
@@ -124,7 +125,7 @@ Result result = PriorityQueue.Enqueue(new SomeClass {Priority = 2}); // result.F
 Result result = PriorityQueue.Enqueue(new SomeClass {Priority = 0}); // result.OK
 ```
 
-`ConcurrentPriorityQueue<T>` can be **extended** to a `BlockingCollection<T>` using the `ToBlockingCollection<T>` extension method.
+`ConcurrentPriorityQueue<T>` can be **extended** to a `BlockingCollection<T>` using the `ToBlockingCollection<T>` extension method:
 
 ```csharp
 var blockingPriorityQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>()
@@ -135,5 +136,10 @@ foreach(var item in blockingPriorityQueue.GetConsumingEnumerable()) {
     // Blocks until signaled on completion.
 }
 ```
+
+### Additional information and resources:
+ - [IProducerConsumerCollection<T> Documentation]([sdsd](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.iproducerconsumercollection-1?view=netframework-4.8))
+ - [BlockingCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.blockingcollection-1?view=netframework-4.8)
+ - [Functional Extensions for C#](https://github.com/vkhorikov/CSharpFunctionalExtensions)
 
 
