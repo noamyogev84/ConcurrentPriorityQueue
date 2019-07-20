@@ -50,8 +50,8 @@ var item2 = new SomeClass { Priority = 0 };
 var item3 = new SomeClass { Priority = 0 };
 
 priorityQueue.Enqueue(item1);
-priorityQueue.Enqueue(item1);
-priorityQueue.Enqueue(item1);
+priorityQueue.Enqueue(item2);
+priorityQueue.Enqueue(item3);
 
 var result = priority.Dequeue(); // item2
 var result = priority.Dequeue(); // item3
@@ -66,8 +66,8 @@ var item2 = new SomeClass { Priority = 0 };
 var item3 = new SomeClass { Priority = 0 };
 
 priorityQueue.Enqueue(item1);
-priorityQueue.Enqueue(item1);
-priorityQueue.Enqueue(item1);
+priorityQueue.Enqueue(item2);
+priorityQueue.Enqueue(item3);
 
 foreach(var item in priorityQueue) {
     // Iteration 1 -> item2
@@ -76,7 +76,7 @@ foreach(var item in priorityQueue) {
 }
 ```
 
-ConcurrentPriorityQueue is generic. Implement your own business priority object and configure the queue to handle it:
+`ConcurrentPriorityQueue` is **Generic**. Implement your own **Business Priority** object and configure the queue to handle it:
 
 ```csharp
 // TimeToProcess class implements IEquatable<T>, IComparable<T> and overrides Object.GetHashCode().
@@ -110,5 +110,29 @@ var priorityQueue = new ConcurrentPriorityQueue<IHavePriority<TimeToProcess>, Ti
 // Enqueue item and handle result.
 Result result = priorityQueue.Enqueue(item);
 ```
+
+`ConcurrentPriorityQueue<T>` can be bounded to a fixed amount of priorities:
+
+```csharp
+// Create a bounded ConcurrentPriorityQueue to support a fixed amount of priorities.
+var maxAmountOfPriorities = 2;
+var priorityQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>(maxAmountOfPriorities);
+
+Result result = PriorityQueue.Enqueue(new SomeClass {Priority = 0}); // result.OK
+Result result = PriorityQueue.Enqueue(new SomeClass {Priority = 1}); // result.OK
+Result result = PriorityQueue.Enqueue(new SomeClass {Priority = 2}); // result.Fail -> Queue supports [0, 1]
+Result result = PriorityQueue.Enqueue(new SomeClass {Priority = 0}); // result.OK
+```
+
+`ConcurrentPriorityQueue<T>` can be **extended** to a `BlockingCollection<T>` using the `ToBlockingCollection<T>` extension method.
+
+```csharp
+var blockingPriorityQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<int>>()
+                                .ToBlockingCollection();
+
+foreach(var item in blockingPriorityQueue.GetConsumingEnumerable()) {
+    // Do something...
+    // Blocks until signaled of completion.
+}
 
 
