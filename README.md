@@ -132,7 +132,8 @@ var blockingPriorityQueue = new ConcurrentPriorityByIntegerQueue<IHavePriority<i
 
 foreach(var item in blockingPriorityQueue.GetConsumingEnumerable()) {
     // Do something...
-    // Blocks until signaled of completion.
+    // Blocks until signaled on completion.
 }
+```
 
 
