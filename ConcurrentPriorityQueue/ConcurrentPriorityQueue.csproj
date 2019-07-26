@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>ConcurrentPriorityQueue</PackageId>
+    <Authors>Noam Yogev</Authors>
+    <Description>A thread-safe generic first in-first out (FIFO) collection with support for priority queuing.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
