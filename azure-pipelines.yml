@@ -23,6 +23,7 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: pack
+    configuration: $(BuildConfiguration)
     packagesToPack: '**/ConcurrentPriorityQueue.csproj'
 
 - task: NuGetCommand@2
