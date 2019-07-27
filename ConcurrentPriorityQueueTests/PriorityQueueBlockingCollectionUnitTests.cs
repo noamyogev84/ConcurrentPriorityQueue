@@ -52,7 +52,7 @@ namespace ConcurrentPriorityQueueTests
 
 		private Task TakeItems()
 		{
-			// blocks until signald on completion.
+			// blocks until signaled on completion.
 			foreach (var item in _targetCollection.GetConsumingEnumerable())
 			{
 				item.Should().BeOfType<MockWithIntegerPriority>();
