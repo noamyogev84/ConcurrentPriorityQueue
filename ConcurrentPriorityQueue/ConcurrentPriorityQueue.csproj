@@ -9,6 +9,7 @@
     <PackageProjectUrl>https://github.com/noamyogev84/ConcurrentPriorityQueue</PackageProjectUrl>
     <RepositoryUrl>https://github.com/noamyogev84/ConcurrentPriorityQueue</RepositoryUrl>
     <PackageTags>threading thread-safe producerconsumer concurrent-collection concurrent blocking-collection collections</PackageTags>
+    <PackageId>ConcurrentQueue</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
