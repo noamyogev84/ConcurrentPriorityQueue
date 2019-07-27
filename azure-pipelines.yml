@@ -20,3 +20,19 @@ steps:
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/ConcurrentPriorityQueue/*.csproj'
+    packDirectory: 
+    nobuild: true
+    includesymbols: true
+    versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'push'
+    packagesToPush: '*.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget'
+
