@@ -29,10 +29,10 @@ steps:
     includesymbols: true
     versioningScheme: 'off'
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   inputs:
     command: 'push'
-    packagesToPush: '*.nupkg'
+    packagesToPush: '/*.nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget'
 
