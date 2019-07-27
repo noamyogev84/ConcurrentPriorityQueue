@@ -2,6 +2,7 @@
 
 steps:
 - task: DotNetCoreInstaller@0
+  displayName: Install DotNet
   inputs:
     version: '2.1.300'
 
@@ -15,12 +16,14 @@ steps:
     arguments: '--configuration Debug'
 
 - task: DotNetCoreCLI@2
+  displayName: Test
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: Pack
   inputs:
     command: 'pack'
     packagesToPack: '**/ConcurrentPriorityQueue/*.csproj'
@@ -30,6 +33,7 @@ steps:
     versioningScheme: 'off'
 
 - task: NuGetCommand@2
+  displayName: Push
   inputs:
     command: 'push'
     packagesToPush: '/*.nupkg'
