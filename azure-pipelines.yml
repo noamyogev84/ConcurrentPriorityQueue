@@ -26,8 +26,8 @@ steps:
     command: pack
     projects: 'ConcurrentPriorityQueue/ConcurrentPriorityQueue.csproj'
     arguments: '--configuration $(buildConfiguration) --PackageVersion $(1.0.0)'
-
- - task: PublishBuildArtifacts@1    
+    
+- task: PublishBuildArtifacts@1    
   displayName: 'Publish Artifact: drop'
   inputs:
     PathToPublish: '$(build.artifactStagingDirectory)'
