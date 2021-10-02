@@ -139,7 +139,7 @@ foreach(var item in blockingPriorityQueue.GetConsumingEnumerable()) {
 ```
 
 ### Additional information and resources:
- - [IProducerConsumerCollection<T> Documentation]([sdsd](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.iproducerconsumercollection-1?view=netframework-4.8))
+ - [IProducerConsumerCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.iproducerconsumercollection-1?view=netframework-4.8)
  - [BlockingCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.blockingcollection-1?view=netframework-4.8)
  - [Functional Extensions for C#](https://github.com/vkhorikov/CSharpFunctionalExtensions)
 
