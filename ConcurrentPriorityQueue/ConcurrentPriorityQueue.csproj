@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Authors>Noam Yogev</Authors>
     <Company />
     <Description>A thread-safe generic first in-first out (FIFO) collection with support for priority queuing.
