@@ -1,6 +1,6 @@
 
 
-# ConcurrentPriorityQueue [![Build Status](https://dev.azure.com/noamyogev84/noamyogev84/_apis/build/status/noamyogev84.ConcurrentPriorityQueue?branchName=develop)](https://dev.azure.com/noamyogev84/noamyogev84/_build/latest?definitionId=1&branchName=develop) ![Nuget](https://img.shields.io/nuget/v/ConcurrentPriorityQueue)
+# ConcurrentPriorityQueue ![Build Workflow](https://github.com/noamyogev84/ConcurrentPriorityQueue/actions/workflows/build.yml/badge.svg) ![Nuget](https://img.shields.io/nuget/v/ConcurrentPriorityQueue)
 A thread-safe generic first in first out (FIFO) collection with support for priority queuing.
 
 Nuget: [https://www.nuget.org/packages/ConcurrentPriorityQueue](https://www.nuget.org/packages/ConcurrentPriorityQueue)
