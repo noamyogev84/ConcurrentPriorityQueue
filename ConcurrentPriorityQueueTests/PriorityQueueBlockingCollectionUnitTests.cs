@@ -29,11 +29,11 @@ namespace ConcurrentPriorityQueueTests
             const int defaultSleepTimeBetweenAdds = 1000;
 
             // Add items and signal for completion when done.
-            await Task.Run(() => AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds))
-                .ContinueWith(t => _targetCollection.CompleteAdding()).ConfigureAwait(false);
+            _ = Task.Run(() => AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds))
+                .ContinueWith(t => _targetCollection.CompleteAdding());
 
             // Take items as long as they continue to be added.
-            await Task.Run(() => TakeItems()).ConfigureAwait(false);
+            _ = Task.Run(() => TakeItems()).ConfigureAwait(false);
 
             // Wait for all tasks to end.
             await Task.WhenAll(AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds), TakeItems()).ConfigureAwait(false);
