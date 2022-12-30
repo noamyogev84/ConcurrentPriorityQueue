@@ -19,8 +19,7 @@ namespace ConcurrentPriorityQueue.Core
             _capacity = capacity;
         }
 
-        public int Count => _internalQueues.Count == 0 ? _internalQueues.Count :
-            _internalQueues.Values.Select(q => q.Count).Aggregate((a, b) => a + b);
+        public int Count => _internalQueues.Values.Sum((q) => q.Count);
 
         public bool IsSynchronized => true;
 
