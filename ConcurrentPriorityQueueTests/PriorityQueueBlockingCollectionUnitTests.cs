@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ConcurrentPriorityQueue;
 using ConcurrentPriorityQueue.Core;
@@ -33,7 +32,7 @@ namespace ConcurrentPriorityQueueTests
                 .ContinueWith(t => _targetCollection.CompleteAdding());
 
             // Take items as long as they continue to be added.
-            _ = Task.Run(() => TakeItems()).ConfigureAwait(false);
+            _ = Task.Run(TakeItems).ConfigureAwait(false);
 
             // Wait for all tasks to end.
             await Task.WhenAll(AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds), TakeItems()).ConfigureAwait(false);
