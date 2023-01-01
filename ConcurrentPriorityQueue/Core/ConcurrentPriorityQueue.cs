@@ -33,7 +33,7 @@ namespace ConcurrentPriorityQueue.Core
         {
             lock (SyncRoot)
             {
-                return _internalQueues.OrderBy((q) => q.Key).Select((q) => q.Value).SelectMany((q) => q).ToArray();
+                return _internalQueues.OrderBy((q) => q.Key).SelectMany((q) => q.Value).ToArray();
             }
         }
 
