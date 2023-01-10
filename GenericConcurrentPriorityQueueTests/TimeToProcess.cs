@@ -18,5 +18,7 @@ namespace GenericConcurrentPriorityQueueTests
             TimeInMilliseconds.Equals(other.TimeInMilliseconds);
 
         public override int GetHashCode() => TimeInMilliseconds.GetHashCode();
+
+        public override bool Equals(object obj) => obj is TimeToProcess process && Equals(process);
     }
 }

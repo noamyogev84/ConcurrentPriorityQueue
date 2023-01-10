@@ -7,7 +7,7 @@ using Xunit;
 namespace ConcurrentPriorityQueueTests
 {
     /// <summary>
-    /// Test general functionalty of the queue [Enqueue, Dequeue, Peek]
+    /// Test general functionalty of the queue [Enqueue, Dequeue, Peek].
     /// </summary>
     public class PriorityQueueUnitTests
     {

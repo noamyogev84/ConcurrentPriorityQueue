@@ -19,19 +19,13 @@ namespace ConcurrentPriorityQueue.Core
             _capacity = capacity;
         }
 
-        public int Count => _internalQueues.Count == 0 ? _internalQueues.Count :
-            _internalQueues.Values.Select(q => q.Count).Aggregate((a, b) => a + b);
+        public int Count => _internalQueues.Values.Sum((q) => q.Count);
 
         public bool IsSynchronized => true;
 
         public object SyncRoot { get; } = new object();
 
-        public void CopyTo(T[] array, int index)
-        {
-            var itemsArray = ToArray();
-            lock (SyncRoot)
-                itemsArray.CopyTo(array, index);
-        }
+        public void CopyTo(T[] array, int index) => ToArray().CopyTo(array, index);
 
         public void CopyTo(Array array, int index) => CopyTo((T[])array, index);
 
@@ -39,13 +33,7 @@ namespace ConcurrentPriorityQueue.Core
         {
             lock (SyncRoot)
             {
-                var itemsList = new List<T>();
-                foreach (var queue in _internalQueues.OrderBy(q => q.Key).Select(q => q.Value))
-                {
-                    itemsList.AddRange(queue.ToArray());
-                }
-
-                return itemsList.ToArray();
+                return _internalQueues.OrderBy((q) => q.Key).SelectMany((q) => q.Value).ToArray();
             }
         }
 
@@ -54,12 +42,14 @@ namespace ConcurrentPriorityQueue.Core
         public bool TryTake(out T item)
         {
             var result = Dequeue();
-            lock (SyncRoot)
+
+            if (result.IsFailure)
             {
                 item = default;
-                if (result.IsFailure)
-                    return false;
-
+                return false;
+            }
+            else
+            {
                 item = result.Value;
                 return true;
             }
@@ -71,7 +61,10 @@ namespace ConcurrentPriorityQueue.Core
 
         public Result Enqueue(T item)
         {
-            lock (SyncRoot) return AddOrUpdate(item);
+            lock (SyncRoot)
+            {
+                return AddOrUpdate(item);
+            }
         }
 
         public Result<T> Dequeue()
@@ -79,8 +72,8 @@ namespace ConcurrentPriorityQueue.Core
             lock (SyncRoot)
             {
                 return GetNextQueue()
-                    .OnSuccess(q => q.Dequeue())
-                    .OnFailure(err => Result.Fail(err));
+                    .Map(q => q.Dequeue())
+                    .TapError(err => Result.Failure(err));
             }
         }
 
@@ -89,37 +82,36 @@ namespace ConcurrentPriorityQueue.Core
             lock (SyncRoot)
             {
                 return GetNextQueue()
-                    .OnSuccess(q => q.Peek())
-                    .OnFailure(err => Result.Fail(err));
+                    .Map(q => q.Peek())
+                    .TapError(err => Result.Failure(err));
             }
         }
 
         private Result<Queue<T>> GetNextQueue()
         {
-            foreach (var queue in _internalQueues.OrderBy(q => q.Key).Select(q => q.Value))
-            {
-                try
-                {
-                    queue.Peek();
-                    return Result.Ok(queue);
-                }
-                catch (Exception) { }
-            }
-
-            return Result.Fail<Queue<T>>("Could not find a queue with items.");
+            return _internalQueues.OrderBy((q) => q.Key).Select((q) => q.Value).FirstOrDefault((q) => q.Count > 0) is Queue<T> queue
+                ? Result.Success(queue)
+                : Result.Failure<Queue<T>>("Could not find a queue with items.");
         }
 
         private Result AddOrUpdate(T item)
         {
-            if (!_internalQueues.ContainsKey(item.Priority))
+            if (_internalQueues.TryGetValue(item.Priority, out Queue<T> queue))
             {
-                if (IsAtMaxCapacity())
-                    return Result.Fail("Reached max capacity.");
-                _internalQueues.Add(item.Priority, new Queue<T>());
+                queue.Enqueue(item);
+                return Result.Success();
             }
-
-            _internalQueues[item.Priority].Enqueue(item);
-            return Result.Ok();
+            else if (!IsAtMaxCapacity())
+            {
+                Queue<T> newQueue = new Queue<T>();
+                newQueue.Enqueue(item);
+                _internalQueues.Add(item.Priority, newQueue);
+                return Result.Success();
+            }
+            else
+            {
+                return Result.Failure("Reached max capacity.");
+            }
         }
 
         private bool IsAtMaxCapacity() => _capacity != 0 && Count == _capacity;
