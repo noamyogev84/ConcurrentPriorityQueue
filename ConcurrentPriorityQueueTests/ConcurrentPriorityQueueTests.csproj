@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <CodeAnalysisRuleSet>..\ConcurrentPriorityQueue.ruleset</CodeAnalysisRuleSet>
+	<TargetFrameworks>net461;net48;netstandard2.0;netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
+	<CodeAnalysisRuleSet>..\ConcurrentPriorityQueue.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
