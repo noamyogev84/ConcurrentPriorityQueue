@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net48;netstandard2.0;netcoreapp3.1;net6.0;net7.0</TargetFrameworks>
-    <Authors>Noam Yogev</Authors>
+	<TargetFrameworks>net48;netstandard2.0;net6.0;net7.0</TargetFrameworks>
+	<Authors>Noam Yogev</Authors>
     <Company />
     <Description>A thread-safe generic first in-first out (FIFO) collection with support for priority queuing.
 </Description>
@@ -20,6 +20,13 @@
 
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.37.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.VisualStudio.Threading.Analyzers" Version="17.4.33">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
