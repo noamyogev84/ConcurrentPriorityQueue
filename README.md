@@ -1,6 +1,5 @@
-
-
 # ConcurrentPriorityQueue ![Build Workflow](https://github.com/noamyogev84/ConcurrentPriorityQueue/actions/workflows/build.yml/badge.svg) ![Nuget](https://img.shields.io/nuget/v/ConcurrentPriorityQueue)
+
 A thread-safe generic first in first out (FIFO) collection with support for priority queuing.
 
 Nuget: [https://www.nuget.org/packages/ConcurrentPriorityQueue](https://www.nuget.org/packages/ConcurrentPriorityQueue)
@@ -8,13 +7,14 @@ Nuget: [https://www.nuget.org/packages/ConcurrentPriorityQueue](https://www.nuge
 ### Features
 
 1. Thread-Safe.
-2. Manages items  according to a `First in first out` policy and `priority` on top of that.
+2. Manages items according to a `First in first out` policy and `priority` on top of that.
 3. Implements `IProducerConsumerCollection<T>` interface.
 4. Extends to a `BlockingCollection<T>`.
+5. Supports multi-frameworks, includes `net48` `netstandard2.0` `net6.0` `net7.0`
 
 ### Examples:
 
-  Items in the collection **must** implement the generic interface `IHavePriority<T>` where T: implements `IEquatable<T>`, `IComparable<T>` and also overrides `Object.GetHashCode()`:
+Items in the collection **must** implement the generic interface `IHavePriority<T>` where T: implements `IEquatable<T>`, `IComparable<T>` and also overrides `Object.GetHashCode()`:
 
 ```csharp
 // Simplest implementation of IHavePriority<T>
@@ -24,6 +24,7 @@ public class SomeClass : IHavePriority<int> {
 ```
 
 Simple flow for creating a `Priority-By-Integer` queue and adding an item:
+
 ```csharp
 // Create a new prioritized item.
 var itemWithPriority = new SomeClass { Priority = 0 };
@@ -76,13 +77,13 @@ foreach(var item in priorityQueue) {
 }
 ```
 
-`ConcurrentPriorityQueue` supports **Generic Priorities**. 
+`ConcurrentPriorityQueue` supports **Generic Priorities**.
 
 Implement your own **Business Priority** object and configure the queue to handle it:
 
 ```csharp
 // TimeToProcess class implements IEquatable<T>, IComparable<T> and overrides Object.GetHashCode().
-public class TimeToProcess : IEquatable<TimeToProcess>, IComparable<TimeToProcess> {		
+public class TimeToProcess : IEquatable<TimeToProcess>, IComparable<TimeToProcess> {
     public decimal TimeInMilliseconds { get; set;}
 
     public int CompareTo(TimeToProcess other) =>
@@ -139,8 +140,7 @@ foreach(var item in blockingPriorityQueue.GetConsumingEnumerable()) {
 ```
 
 ### Additional information and resources:
- - [IProducerConsumerCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.iproducerconsumercollection-1?view=netframework-4.8)
- - [BlockingCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.blockingcollection-1?view=netframework-4.8)
- - [Functional Extensions for C#](https://github.com/vkhorikov/CSharpFunctionalExtensions)
 
-
+- [IProducerConsumerCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.iproducerconsumercollection-1?view=netframework-4.8)
+- [BlockingCollection<T> Documentation](https://docs.microsoft.com/en-us/dotnet/api/system.collections.concurrent.blockingcollection-1?view=netframework-4.8)
+- [Functional Extensions for C#](https://github.com/vkhorikov/CSharpFunctionalExtensions)
