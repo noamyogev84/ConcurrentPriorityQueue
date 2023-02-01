@@ -4,6 +4,7 @@
 	<TargetFrameworks>net48;netcoreapp2.0;net6.0;net7.0</TargetFrameworks>
     <CodeAnalysisRuleSet>..\ConcurrentPriorityQueue.ruleset</CodeAnalysisRuleSet>
     <IsPackable>false</IsPackable>
+	<IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
