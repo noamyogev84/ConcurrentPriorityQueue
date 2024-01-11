@@ -1,32 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>net48;netstandard2.0;net6.0;net7.0</TargetFrameworks>
+	<IsTrimmable>true</IsTrimmable>
+	<TargetFrameworks>net48;netstandard2.0;net6.0;net8.0</TargetFrameworks>
 	<Authors>Noam Yogev</Authors>
-    <Company />
-    <Description>A thread-safe generic first in-first out (FIFO) collection with support for priority queuing.
-</Description>
+    <Description>A thread-safe generic first in-first out (FIFO) collection with support for priority queuing.</Description>
     <PackageProjectUrl>https://github.com/noamyogev84/ConcurrentPriorityQueue</PackageProjectUrl>
     <RepositoryUrl>https://github.com/noamyogev84/ConcurrentPriorityQueue</RepositoryUrl>
     <PackageTags>threading thread-safe producerconsumer concurrent-collection concurrent blocking-collection collections</PackageTags>
     <PackageId>PriorityConcurrentQueue</PackageId>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.37.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="Microsoft.VisualStudio.Threading.Analyzers" Version="17.4.33">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+	  <PackageReference Include="CSharpFunctionalExtensions" Version="2.40.3" />
   </ItemGroup>
 
 </Project>

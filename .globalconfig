@@ -24,9 +24,6 @@ dotnet_diagnostic.SA1309.severity = none
 # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1101.severity = none
 
-# Default severity for all analyzer diagnostics
-dotnet_analyzer_diagnostic.severity = error
-
 # IDE0011: Add braces
 csharp_prefer_braces = when_multiline
 

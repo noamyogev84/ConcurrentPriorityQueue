@@ -22,25 +22,25 @@ namespace ConcurrentPriorityQueueTests
         }
 
         [Fact]
-        public async Task Test_ConsumingTaskBlocksUntilNoMoreAdditions()
+        public async Task Test_ConsumingTaskBlocksUntilNoMoreAdditionsAsync()
         {
             const int numberOfItemsToAdd = 10;
             const int defaultSleepTimeBetweenAdds = 1000;
 
             // Add items and signal for completion when done.
-            _ = Task.Run(() => AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds))
+            _ = Task.Run(() => AddItemsAsync(numberOfItemsToAdd, defaultSleepTimeBetweenAdds))
                 .ContinueWith(t => _targetCollection.CompleteAdding());
 
             // Take items as long as they continue to be added.
-            _ = Task.Run(TakeItems).ConfigureAwait(false);
+            _ = Task.Run(TakeItemsAsync).ConfigureAwait(true);
 
             // Wait for all tasks to end.
-            await Task.WhenAll(AddItems(numberOfItemsToAdd, defaultSleepTimeBetweenAdds), TakeItems()).ConfigureAwait(false);
+            await Task.WhenAll(AddItemsAsync(numberOfItemsToAdd, defaultSleepTimeBetweenAdds), TakeItemsAsync()).ConfigureAwait(true);
         }
 
         public void Dispose() => _targetCollection.Dispose();
 
-        private async Task AddItems(int numberOfItemsToAdd, int sleepTime = 0)
+        private async Task AddItemsAsync(int numberOfItemsToAdd, int sleepTime = 0)
         {
             for (var i = 0; i < numberOfItemsToAdd; ++i)
             {
@@ -49,7 +49,7 @@ namespace ConcurrentPriorityQueueTests
             }
         }
 
-        private Task TakeItems()
+        private Task TakeItemsAsync()
         {
             // blocks until signaled on completion.
             foreach (var item in _targetCollection.GetConsumingEnumerable())
