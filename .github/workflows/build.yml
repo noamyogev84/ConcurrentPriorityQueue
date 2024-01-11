@@ -1,10 +1,14 @@
-name: Build and test library
+name: Build and Test ConcurrentPriorityQueue
 
 on:
   push:
     branches: [develop]
   pull_request:
     branches: [develop]
+
+concurrency:
+  group: ${{github.workflow}}-${{github.event.pull_request.number || github.ref}}
+  cancel-in-progress: true
 
 jobs:
   build:
