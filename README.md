@@ -10,7 +10,7 @@ Nuget: [https://www.nuget.org/packages/ConcurrentPriorityQueue](https://www.nuge
 2. Manages items according to a `First in first out` policy and `priority` on top of that.
 3. Implements `IProducerConsumerCollection<T>` interface.
 4. Extends to a `BlockingCollection<T>`.
-5. Supports multi-frameworks, includes `net48` `netstandard2.0` `net6.0` `net7.0`
+5. Supports multi-frameworks, includes `net48` `netstandard2.0` `net6.0` `net8.0`
 
 ### Examples:
 
