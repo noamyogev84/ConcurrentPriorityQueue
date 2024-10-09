@@ -9,6 +9,7 @@ namespace ConcurrentPriorityQueue
         public ConcurrentPriorityByIntegerQueue()
             : base() { }
 
+        // new changes!!
         public ConcurrentPriorityByIntegerQueue(int capacity)
             : base(capacity) { }
     }
